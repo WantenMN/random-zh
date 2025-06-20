@@ -1,0 +1,24 @@
+[package]
+name = "random-zh"
+version = "0.1.0"
+authors = ["Wanten <WantenMN@gmail.com>"]
+edition = "2024"
+license = "MIT"
+readme = "README.md"
+description = "A Rust crate for generating random Chinese characters."
+repository = "https://github.com/WantenMN/random-zh.git"
+keywords = ["random", "Chinese", "characters"]
+include = [
+    "Cargo.toml",
+    "levels.json",
+    "stroke-count.json",
+    "src/**",
+    "tests/**",
+    "README.md",
+    "LICENSE",
+]
+
+[dependencies]
+rand = "0.9.1"
+serde = {version = "1.0.219", features = ["derive"]}
+serde_json = "1.0.140"
