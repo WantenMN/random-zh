@@ -13,7 +13,7 @@ Add `random-zh` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-random-zh = "0.1.2"
+random-zh = "0.1.3"
 ```
 
 Run the following command to fetch the crate:

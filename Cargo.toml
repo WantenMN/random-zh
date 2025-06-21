@@ -1,6 +1,6 @@
 [package]
 name = "random-zh"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Wanten <WantenMN@gmail.com>"]
 edition = "2024"
 license = "MIT"
