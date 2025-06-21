@@ -13,7 +13,7 @@ Add `random-zh` to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-random-zh = "0.1.1"
+random-zh = "0.1.2"
 ```
 
 Run the following command to fetch the crate:
@@ -74,7 +74,7 @@ Generates a vector of random Chinese characters based on the provided options.
 - `count: Option<usize>`: The number of random characters to generate. Defaults to 1 if not specified.
 - `level_range: Option<(u8, u8)>`: The range of levels to include in the generated characters. Levels currently range from 1 to 3.
 - `stroke_count_range: Option<(u8, u8)>`: The range of stroke counts to include in the generated characters. Stroke counts currently range from 1 to 36.
-- `allow_duplicates: bool`: Whether to allow duplicate characters in the output. Defaults to `false`.
+- `allow_duplicates: bool`: Whether to allow duplicate characters in the output. Defaults to `false`, if `count` exceeds the total number of unique characters, only the total number of unique characters will be returned instead of `count`
 
 ### Example: Generating Characters
 
@@ -88,6 +88,55 @@ let options = RandomZhOptions {
 
 let characters = random_zh(options);
 println!("Random characters: {:?}", characters);
+```
+
+## CLI Usage
+
+The random-zh binary allows generating random Chinese characters from the command line.
+
+### Install from Cargo
+
+```sh
+cargo install random-zh
+```
+
+### Command Line Options
+
+```
+Usage: random-zh [OPTIONS]
+
+Options:
+  -c, --count <COUNT>
+          Number of characters to generate
+  -l, --level-range <LEVEL_RANGE>
+          Level range for characters (e.g., 1,3 for levels 1 to 3, 1,1 for level 1 only)
+  -s, --stroke-count-range <STROKE_COUNT_RANGE>
+          Stroke count range for characters (e.g., 1,36 for 1 to 36 strokes, 1,1 for 1 stroke only)
+  -d, --allow-duplicates
+          Allow duplicate characters
+  -h, --help
+          Print help
+  -V, --version
+          Print version
+```
+
+### Examples
+
+```sh
+random-zh
+# ['天']
+
+random-zh -c 10
+# ['稠', '𬭤', '霪', '悸', '垸', '腑', '姒', '运', '迨', '霭']
+
+random-zh -c 10 -l 1,1
+#['茎', '雷', '除', '暑', '颗', '目', '厉', '举', '槛', '瓶']
+
+random-zh -c 10 -l 1,1 -s 1,1
+# ['乙', '一']
+
+random-zh -c 10 -l 1,1 -s 1,1 -d
+# ['乙', '一', '一', '一', '一', '乙', '乙', '一', '一', '一']
 ```
 
 ## Level Descriptions
