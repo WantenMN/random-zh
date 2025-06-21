@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 
 pub struct Data {
     pub levels: HashMap<u8, Vec<char>>,
@@ -8,25 +7,25 @@ pub struct Data {
 
 impl Data {
     pub fn new() -> Self {
-        let levels: HashMap<u8, Vec<char>> = load_json::<HashMap<String, String>>("levels.json")
-            .into_iter()
-            .map(|(k, v)| (k.parse::<u8>().unwrap(), v.chars().collect()))
-            .collect();
-
-        let stroke_counts: HashMap<u8, Vec<char>> =
-            load_json::<HashMap<String, String>>("stroke-count.json")
-                .into_iter()
-                .map(|(k, v)| (k.parse::<u8>().unwrap(), v.chars().collect()))
-                .collect();
-
         Self {
-            levels,
-            stroke_counts,
+            levels: Self::load_and_parse_json(include_str!("../levels.json")),
+            stroke_counts: Self::load_and_parse_json(include_str!("../stroke-count.json")),
         }
+    }
+
+    fn load_and_parse_json(content: &str) -> HashMap<u8, Vec<char>> {
+        load_json::<HashMap<String, String>>(content)
+            .into_iter()
+            .map(|(k, v)| {
+                (
+                    k.parse::<u8>().expect("Invalid key format"),
+                    v.chars().collect(),
+                )
+            })
+            .collect()
     }
 }
 
-fn load_json<T: for<'de> serde::Deserialize<'de>>(file: &str) -> HashMap<String, String> {
-    let content = fs::read_to_string(file).expect("Failed to read file");
-    serde_json::from_str(&content).expect("Failed to parse JSON")
+fn load_json<T: for<'de> serde::Deserialize<'de>>(content: &str) -> T {
+    serde_json::from_str(content).expect("Failed to parse JSON")
 }
